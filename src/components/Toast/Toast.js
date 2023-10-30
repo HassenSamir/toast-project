@@ -33,10 +33,19 @@ function Toast({ variant, content, handleDismiss }) {
       <div className={styles.iconContainer}>
         <TagIcon size={24} />
       </div>
-      <p className={styles.content}>{content}</p>
-      <button className={styles.closeButton} onClick={handleDismiss}>
+      <p className={styles.content}>
+        <VisuallyHidden>
+          Variant: {variant}, Message: {content}
+        </VisuallyHidden>
+        {content}
+      </p>
+      <button
+        className={styles.closeButton}
+        onClick={handleDismiss}
+        ariaLive='off'
+        ariaLabel='Dismiss message'
+      >
         <X size={24} />
-        <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>
     </div>
   );
