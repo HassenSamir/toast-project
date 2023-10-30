@@ -8,8 +8,8 @@ function ToastShelf({ toasts, handleDismiss }) {
     <ol
       className={styles.wrapper}
       role='list'
-      ariaLive='polite'
-      ariaLabel='Toasts'
+      aria-live='polite'
+      aria-label='Toasts'
     >
       {toasts.map((toast) => (
         <li key={toast.id} className={styles.toastWrapper}>

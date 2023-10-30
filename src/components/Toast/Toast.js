@@ -42,8 +42,8 @@ function Toast({ variant, content, handleDismiss }) {
       <button
         className={styles.closeButton}
         onClick={handleDismiss}
-        ariaLive='off'
-        ariaLabel='Dismiss message'
+        aria-live='off'
+        aria-label='Dismiss message'
       >
         <X size={24} />
       </button>
