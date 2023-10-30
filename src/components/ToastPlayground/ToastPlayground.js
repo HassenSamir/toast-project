@@ -1,10 +1,14 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Button from "../Button";
-
 import styles from "./ToastPlayground.module.css";
-import Toast from "../Toast/Toast";
 import ToastShelf from "../ToastShelf/ToastShelf";
+import { ToastContext } from "../../context/ToastProvider";
 
 const VARIANT_OPTIONS = [
   {
@@ -28,8 +32,8 @@ const VARIANT_OPTIONS = [
 function ToastPlayground() {
   const [message, setMessage] = useState("");
   const [variant, setVariant] = useState(VARIANT_OPTIONS[0].value);
-  const [toasts, setToasts] = useState([]);
-  const [showToast, setShowToast] = useState(false);
+  const { toasts, isToastsShown, createToast, deleteToast } =
+    useContext(ToastContext);
 
   const handleMessage = useCallback((e) => {
     setMessage(e.target.value);
@@ -38,27 +42,18 @@ function ToastPlayground() {
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
-
-      const newToast = {
-        id: crypto.randomUUID(),
-        message: message,
-        variant: variant,
-      };
-      const nextToasts = [...toasts, newToast];
-      setToasts(nextToasts);
+      createToast(message, variant);
       setVariant(VARIANT_OPTIONS[0].value);
       setMessage("");
-      setShowToast(true);
     },
-    [message, variant, toasts]
+    [message, variant, createToast]
   );
 
   const handleDismiss = useCallback(
     (id) => {
-      const nextToasts = [...toasts].filter((toasts) => toasts.id !== id);
-      setToasts(nextToasts);
+      deleteToast(id);
     },
-    [toasts]
+    [deleteToast]
   );
 
   return (
@@ -96,7 +91,7 @@ function ToastPlayground() {
         </div>
       </form>
 
-      {showToast && (
+      {isToastsShown && (
         <ToastShelf toasts={toasts} handleDismiss={handleDismiss} />
       )}
     </div>
